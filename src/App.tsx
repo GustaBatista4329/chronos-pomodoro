@@ -1,7 +1,6 @@
 import { Home } from "./pages/Home";
 import "./styles/global.css";
 import "./styles/theme.css";
-import { NotFound } from "./pages/NotFound";
 import { useState } from "react";
 import type { TaskStateModel } from "./models/TaskStateModel";
 
@@ -21,5 +20,5 @@ const initialState: TaskStateModel = {
 export function App() {
   const [state, setState] = useState(initialState);
 
-  return <Home state={state} setState={setState} />;
+  return <Home />;
 }
