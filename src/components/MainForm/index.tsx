@@ -2,8 +2,11 @@ import { PlayCircleIcon } from "lucide-react";
 import { Cycles } from "../Cycles";
 import { DefaultButton } from "../DefaultButton";
 import { DefaultInput } from "../DefaultInput";
+import { useState, useRef } from "react";
 
 export function MainForm() {
+  const taskNameInput = useRef<HTMLInputElement>(null);
+
   function handleCreateNewTask(
     event: React.MouseEvent<HTMLFormElement, MouseEvent>
   ) {
@@ -19,6 +22,7 @@ export function MainForm() {
           type="text"
           labelText="task"
           placeholder="Digite algo"
+          ref={taskNameInput}
         />
       </div>
 
