@@ -2,16 +2,51 @@ import { PlayCircleIcon } from "lucide-react";
 import { Cycles } from "../Cycles";
 import { DefaultButton } from "../DefaultButton";
 import { DefaultInput } from "../DefaultInput";
-import { useState, useRef } from "react";
+import { useRef } from "react";
+import type { TaskModel } from "../../models/TaskModel";
+import { useTaskContext } from "../../contexts/TaskContext/useTaskContext";
 
 export function MainForm() {
+  const { setState } = useTaskContext();
   const taskNameInput = useRef<HTMLInputElement>(null);
 
   function handleCreateNewTask(
     event: React.MouseEvent<HTMLFormElement, MouseEvent>
   ) {
     event.preventDefault();
-    console.log("Deu certo");
+
+    if (taskNameInput.current === null) return;
+
+    const taskName = taskNameInput.current.value.trim();
+
+    if (!taskName) {
+      alert("Digite o nome da tarefa!");
+      return;
+    }
+
+    const newTask: TaskModel = {
+      id: String(Date.now()),
+      name: taskName,
+      startDate: Date.now(),
+      completeDate: null,
+      interruptDate: null,
+      duration: 1,
+      type: "workTime",
+    };
+
+    const secondsRemaining = newTask.duration * 60;
+
+    setState((prevState) => {
+      return {
+        ...prevState,
+        config: { ...prevState.config },
+        activeTask: newTask,
+        currentCycle: 1, //conferir
+        secondsRemaining, //chave e valor igual permite a omissão do valor
+        formattedSecondsRemaining: "00:00",
+        tasks: [...prevState.tasks, newTask],
+      };
+    });
   }
 
   return (
